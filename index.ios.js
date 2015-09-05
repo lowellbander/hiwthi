@@ -13,6 +13,19 @@ var {
   View,
 } = React;
 
+var MOMENTS = [
+  {
+    homed: "Lowell Bander",
+    homeless: "Joe Schmo",
+    story: "I met Joe near the froyo shop in the 310.",
+  },
+  {
+    homed: "Natalie Ethell",
+    homeless: "Elenore Schmo",
+    story: "I met Elenore near the smore shop in the 314."
+  }
+];
+
 var hiwthi = React.createClass({
   getInitialState() {
     return {
@@ -61,10 +74,24 @@ var hiwthi = React.createClass({
 });
 
 var FeedView = React.createClass({
+  getInitialState: function() {
+    return {
+      moments: MOMENTS,
+    }
+  },
   render: function() {
     return (
       <View style={ styles.pageView }>
         <Text>THIS IS THE FEED VIEW</Text>
+        {this.state.moments.map(function (moment) {
+          return (
+          <View>
+            <Text>{moment.homed}</Text>
+            <Text>{moment.homeless}</Text>
+            <Text>{moment.story}</Text>
+          </View>
+          );
+        })}
       </View>
     );
   },
