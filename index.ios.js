@@ -38,33 +38,34 @@ var hiwthi = React.createClass({
       selectedTab: 'feed'
     }
   },
+  
   render: function() {
     return (
-      <TabBarIOS>
+      <TabBarIOS tint="white" barTintColor="ghostwhite">
         <TabBarIOS.Item
-          title="Feed"
-          //icon={ require('image!facemash') }
+          title="Moments"
+          icon={ require('image!feed') }
           onPress={ () => this._changeTab('feed') }
           selected={ this.state.selectedTab === 'feed' }>
           <FeedView />
         </TabBarIOS.Item>
         <TabBarIOS.Item
           title="Me"
-          //icon={ require('image!facemash') }
+          icon={ require('image!user') }
           onPress={ () => this._changeTab('me') }
           selected={ this.state.selectedTab === 'me' }>
           <MeView />
         </TabBarIOS.Item>
         <TabBarIOS.Item
           title="Map"
-          //icon={ require('image!facemash') }
+          icon={ require('image!map') }
           onPress={ () => this._changeTab('map') }
           selected={ this.state.selectedTab === 'map' }>
           <MapView />
         </TabBarIOS.Item>
         <TabBarIOS.Item
-          title="+"
-          //icon={ require('image!facemash') }
+          title="Add"
+          icon={ require('image!plus') }
           onPress={ () => this._changeTab('add') }
           selected={ this.state.selectedTab === 'add' }>
           <AddView />
@@ -243,6 +244,14 @@ var styles = StyleSheet.create({
       borderColor: '#007Aff',
       padding: 4,
 
+  },
+  tabContent: {
+    flex: 1,
+    alignItems: 'center',
+  },
+  tabText: {
+    color: 'white',
+    margin: 50,
   },
 });
 
