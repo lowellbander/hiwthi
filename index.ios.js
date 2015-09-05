@@ -13,6 +13,19 @@ var {
   View,
 } = React;
 
+var MOMENTS = [
+  {
+    homed: "Lowell Bander",
+    homeless: "Joe Schmo",
+    story: "I met Joe near the froyo shop in the 310.",
+  },
+  {
+    homed: "Lowell Bander",
+    homeless: "Joe Schmo",
+    story: "I met Joe near the froyo shop in the 310."
+  }
+];
+
 var hiwthi = React.createClass({
   getInitialState() {
     return {
@@ -65,6 +78,7 @@ var FeedView = React.createClass({
     return (
       <View style={ styles.pageView }>
         <Text>THIS IS THE FEED VIEW</Text>
+        <Text>{MOMENTS}</Text>
       </View>
     );
   },
