@@ -5,8 +5,12 @@
 'use strict';
 
 var React = require('react-native');
+var Button = require('react-native-button');
+var imageLink = 'https://pbs.twimg.com/profile_images/626930521365327873/sSJzUuI__400x400.jpg';
+
 var {
   AppRegistry,
+  Image,
   StyleSheet,
   TabBarIOS,
   Text,
@@ -97,11 +101,43 @@ var FeedView = React.createClass({
   },
 });
 
+var Avatar = React.createClass({
+  render: function(){
+    return(
+        <Image 
+            source={{uri: imageLink}}
+            style= {styles.profilePhoto}/>
+      )
+    
+  }
+})
+
+var Header = React.createClass({
+  render: function(){
+    return(
+      <View style={styles.headerContainer}>
+          <Avatar />
+          <View style={styles.infoContainer}>
+            <Text style={styles.nameText}>
+            Nat Doe
+            </Text>
+            <Text style={styles.xMomentsText}>
+            19 Moments
+            </Text>
+            <Button style={styles.button} onPress={this._handlePress}>
+              Follow
+            </Button>
+          </View>
+      </View>
+    );
+  }
+})
+
 var MeView = React.createClass({
   render: function() {
     return (
       <View style={ styles.pageView }>
-        <Text>THIS IS THE ME VIEW</Text>
+        <Header />    
       </View>
     );
   },
@@ -143,6 +179,45 @@ var styles = StyleSheet.create({
     textAlign: 'center',
     color: '#333333',
     marginBottom: 5,
+  },
+  headerContainer: {
+    flex: 5,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#F5FCFF',
+  },
+  profilePhoto: {
+      flex: 3,
+      width: 100,
+      height: 100,
+      borderRadius: 50,
+      margin: 20,
+  },
+  infoContainer: {
+    flex:7,
+  },
+  nameText: {
+      fontSize: 32,
+      fontFamily: 'Avenir',
+      marginBottom: -5,
+  },
+  xMomentsText: {
+      fontSize: 18,
+      color: '#A2A2A2',
+  },
+  button:{
+      flex:1,
+      width: 85,
+      marginTop: 10,
+      color: '#007AFF',
+      fontSize: 18,
+      textAlign:'center',
+      borderWidth: 1,
+      borderRadius: 8,
+      borderColor: '#007Aff',
+      padding: 4,
+
   },
 });
 
