@@ -1,4 +1,5 @@
 # hiwthi
 Home is Where the Heart is 
 
-PennApps XII
+Made with love at PennApps XII by
+Natalie, Akshay and Lowell.
