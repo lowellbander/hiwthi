@@ -8,27 +8,96 @@ var React = require('react-native');
 var {
   AppRegistry,
   StyleSheet,
+  TabBarIOS,
   Text,
   View,
 } = React;
 
 var hiwthi = React.createClass({
+  getInitialState() {
+    return {
+      selectedTab: 'feed'
+    }
+  },
   render: function() {
     return (
-      <View style={styles.container}>
-        <Text style={styles.welcome}>
-          Welcome to React Native!
-        </Text>
-        <Text style={styles.instructions}>
-          To get started, edit index.ios.js
-        </Text>
-        <Text style={styles.instructions}>
-          Press Cmd+R to reload,{'\n'}
-          Cmd+D or shake for dev menu
-        </Text>
+      <TabBarIOS>
+        <TabBarIOS.Item
+          title="Feed"
+          //icon={ require('image!facemash') }
+          onPress={ () => this._changeTab('feed') }
+          selected={ this.state.selectedTab === 'feed' }>
+          <FeedView />
+        </TabBarIOS.Item>
+        <TabBarIOS.Item
+          title="Me"
+          //icon={ require('image!facemash') }
+          onPress={ () => this._changeTab('me') }
+          selected={ this.state.selectedTab === 'me' }>
+          <MeView />
+        </TabBarIOS.Item>
+        <TabBarIOS.Item
+          title="Map"
+          //icon={ require('image!facemash') }
+          onPress={ () => this._changeTab('map') }
+          selected={ this.state.selectedTab === 'map' }>
+          <MapView />
+        </TabBarIOS.Item>
+        <TabBarIOS.Item
+          title="+"
+          //icon={ require('image!facemash') }
+          onPress={ () => this._changeTab('add') }
+          selected={ this.state.selectedTab === 'add' }>
+          <AddView />
+        </TabBarIOS.Item>
+      </TabBarIOS>
+    );
+  },
+  _changeTab: function(tabName) {
+    this.setState({
+      selectedTab: tabName,
+    });
+  },
+});
+
+var FeedView = React.createClass({
+  render: function() {
+    return (
+      <View style={ styles.pageView }>
+        <Text>THIS IS THE FEED VIEW</Text>
       </View>
     );
-  }
+  },
+});
+
+var MeView = React.createClass({
+  render: function() {
+    return (
+      <View style={ styles.pageView }>
+        <Text>THIS IS THE ME VIEW</Text>
+      </View>
+    );
+  },
+});
+
+var MapView = React.createClass({
+  render: function() {
+    return (
+      <View style={ styles.pageView }>
+        <Text>THIS IS THE MAP VIEW</Text>
+      </View>
+    );
+  },
+});
+
+var AddView = React.createClass({
+  render: function() {
+    return (
+      <View style={ styles.pageView }>
+        <Text>THIS IS THE ADD VIEW</Text>
+      </View>
+    );
+  },
 });
 
 var styles = StyleSheet.create({
