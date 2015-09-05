@@ -7,6 +7,7 @@
 var React = require('react-native');
 var Button = require('react-native-button');
 var imageLink = 'https://pbs.twimg.com/profile_images/626930521365327873/sSJzUuI__400x400.jpg';
+var Camera = require('react-native-camera');
 
 var {
   AppRegistry,
@@ -14,6 +15,7 @@ var {
   StyleSheet,
   TabBarIOS,
   Text,
+  TouchableHighlight,
   View,
 } = React;
 
@@ -105,11 +107,11 @@ var FeedView = React.createClass({
 var Avatar = React.createClass({
   render: function(){
     return(
-        <Image 
+        <Image
             source={{uri: imageLink}}
             style= {styles.profilePhoto}/>
       )
-    
+
   }
 })
 
@@ -138,7 +140,7 @@ var MeView = React.createClass({
   render: function() {
     return (
       <View style={ styles.pageView }>
-        <Header /> 
+        <Header />
       </View>
     );
   },
@@ -155,11 +157,34 @@ var MapView = React.createClass({
 });
 
 var AddView = React.createClass({
-  render: function() {
+  getInitialState() {
+    return {
+      cameraType: Camera.constants.Type.back
+    }
+  },
+  render() {
+
     return (
-      <View style={ styles.pageView }>
-        <Text>THIS IS THE ADD VIEW</Text>
-      </View>
+      <Camera
+        ref="cam"
+        style={styles.container}
+        onBarCodeRead={this._onBarCodeRead}
+        type={this.state.cameraType}
+      >
+        <Text style={styles.welcome}>
+          Welcome to React Native!
+        </Text>
+        <Text style={styles.instructions}>
+          To get started, edit index.ios.js{'\n'}
+          Press Cmd+R to reload
+        </Text>
+        <TouchableHighlight onPress={this._switchCamera}>
+          <Text>The old switcheroo</Text>
+        </TouchableHighlight>
+        <TouchableHighlight onPress={this._takePicture}>
+          <Text>Take Picture</Text>
+        </TouchableHighlight>
+      </Camera>
     );
   },
 });
