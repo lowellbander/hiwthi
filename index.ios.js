@@ -69,8 +69,8 @@ var OurTabBar = React.createClass({
   render: function(){
     return(
         <TabBarIOS tintColor="white" barTintColor="darkslateblue">
-          <TabBarIOS.Item title="Blue Tab" 
-                          systemIcon="contacts"
+          <TabBarIOS.Item title="Moments" 
+                          icon={require('image!feed')}
                           selected={this.state.selectedTab === 'blueTab'}
                           onPress={() => {
                           this.setState({
@@ -80,7 +80,8 @@ var OurTabBar = React.createClass({
           {this._renderContent('#414A8C', 'Blue Tab')}
           </TabBarIOS.Item>
           <TabBarIOS.Item
-            systemIcon="history"
+            title="Map"
+            icon={require('image!map')}
             badge={this.state.notifCount > 0 ? this.state.notifCount : undefined}
             selected={this.state.selectedTab === 'redTab'}
             onPress={() => {
@@ -92,7 +93,8 @@ var OurTabBar = React.createClass({
             {this._renderContent('#783E33', 'Red Tab', this.state.notifCount)}
           </TabBarIOS.Item>
           <TabBarIOS.Item
-            systemIcon="more"
+            title="Me"
+            icon={require('image!user')}
             selected={this.state.selectedTab === 'greenTab'}
             onPress={() => {
               this.setState({
@@ -102,6 +104,7 @@ var OurTabBar = React.createClass({
             }}>
             {this._renderContent('#21551C', 'Green Tab', this.state.presses)}
           </TabBarIOS.Item>
+
         </TabBarIOS>
       )
   }
@@ -132,6 +135,7 @@ var hiwthi = React.createClass({
         <View style={styles.feedContainer}>
         </View>
         <OurTabBar />
+
       </View>
     );
   }
@@ -147,7 +151,7 @@ var styles = StyleSheet.create({
   },
   statusBarContainer: {
     flex:1,
-    backgroundColor:'#00FFFF',
+    backgroundColor:'#F5FCFF',
   },
   headerContainer: {
     flex: 5,
@@ -208,7 +212,14 @@ var styles = StyleSheet.create({
       justifyContent: 'center',
       alignItems: 'center',
   },
-   
+   tabContent: {
+    flex: 1,
+    alignItems: 'center',
+  },
+  tabText: {
+    color: 'white',
+    margin: 50,
+  },
 });
 
 AppRegistry.registerComponent('hiwthi', () => hiwthi);
