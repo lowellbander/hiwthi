@@ -15,6 +15,30 @@ var {
   View,
 } = React;
 
+var Header = React.createClass({
+  render: function(){
+    return(
+      <View style={styles.headerContainer}>
+          <Image 
+            source={{uri: imageLink}}
+            style= {styles.profilePhoto}/>
+          <View style={styles.infoContainer}>
+            <Text style={styles.nameText}>
+            Nat Doe
+            </Text>
+            <Text style={styles.xMomentsText}>
+            19 Moments
+            </Text>
+            
+            <Button style={styles.button} onPress={this._handlePress}>
+              Follow
+            </Button>
+            
+          </View>
+      </View>
+    );
+  }
+})
 var hiwthi = React.createClass({
   render: function() {
     var tabBar = <View style={styles.tabContainer}>
@@ -34,22 +58,7 @@ var hiwthi = React.createClass({
 
         </View>
         <View style={styles.headerContainer}>
-          <Image 
-            source={{uri: imageLink}}
-            style= {styles.profilePhoto}/>
-          <View style={styles.infoContainer}>
-            <Text style={styles.nameText}>
-            Nat Doe
-            </Text>
-            <Text style={styles.xMomentsText}>
-            19 Moments
-            </Text>
-            
-            <Button style={styles.button} onPress={this._handlePress}>
-        Follow
-      </Button>
-            
-          </View>
+            <Header/>
         </View>
         {tabBar}
         <View style={styles.feedContainer}>
