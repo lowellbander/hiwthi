@@ -11,6 +11,7 @@ var Camera = require('react-native-camera');
 
 var {
   AppRegistry,
+  CameraRoll,
   Image,
   StyleSheet,
   TabBarIOS,
@@ -32,13 +33,15 @@ var MOMENTS = [
   }
 ];
 
+var MOCK_IMG = null;
+
 var hiwthi = React.createClass({
   getInitialState() {
     return {
       selectedTab: 'feed'
     }
   },
-  
+
   render: function() {
     return (
       <TabBarIOS tint="white" barTintColor="ghostwhite">
@@ -96,6 +99,7 @@ var FeedView = React.createClass({
             <Text>{moment.homed}</Text>
             <Text>{moment.homeless}</Text>
             <Text>{moment.story}</Text>
+            <Image source={MOCK_IMG} />
           </View>
           );
         })}
@@ -187,6 +191,22 @@ var AddView = React.createClass({
       </Camera>
     );
   },
+  _takePicture() {
+   this.refs.cam.capture(function(err, data) {
+     console.log(err, data);
+     CameraRoll.getPhotos(
+       {first:1},
+       (data) => {
+         console.log('success: ', data);
+         //var uri =
+         MOCK_IMG = data.edges[0].node.image;
+       },
+       (error) => {
+         console.log('error: ', error);
+       }
+     );
+   });
+ },
 });
 
 var styles = StyleSheet.create({
