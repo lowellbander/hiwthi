@@ -13,6 +13,7 @@ var {
   AppRegistry,
   MapView,
   Image,
+  ListView,
   StyleSheet,
   TabBarIOS,
   Text,
@@ -37,19 +38,19 @@ var markers = [
 
 var MOMENTS = [
   {
-    homed: "Lowell Bander",
-    homeless: "Joe Schmo",
-    location: "Warsaw, Poland",
-    image: "https://igcdn-photos-g-a.akamaihd.net/hphotos-ak-xaf1/t51.2885-15/e35/11427426_477276085785862_356093719_n.jpg",
-    story: "I met Joe near the froyo shop in the 310.",
-  },
-  {
     homed: "Natalie Ethell",
     homeless: "Akshay Bakshi",
     location: "Dnipropetrovsk, Ukraine",
-    image: "https://igcdn-photos-h-a.akamaihd.net/hphotos-ak-xaf1/t51.2885-15/e35/11848827_1491796057801111_1023068330_n.jpg",
+    image: {uri: "https://igcdn-photos-h-a.akamaihd.net/hphotos-ak-xaf1/t51.2885-15/e35/11848827_1491796057801111_1023068330_n.jpg"},
     story: "I met Akshay near the smore shop in the 314."
-  }
+  },
+  {
+    homed: "Lowell Bander",
+    homeless: "Joe Schmo",
+    location: "Warsaw, Poland",
+    image: {uri: "https://igcdn-photos-g-a.akamaihd.net/hphotos-ak-xaf1/t51.2885-15/e35/11427426_477276085785862_356093719_n.jpg"},
+    story: "I met Joe near the froyo shop in the 310.",
+  },
 ];
 
 var hiwthi = React.createClass({
@@ -115,7 +116,9 @@ var FeedView = React.createClass({
           <View>
             <Text>{moment.homed}</Text>
             <Text>{moment.homeless}</Text>
+            <Image source={moment.image} style={styles.momentPhoto} />
             <Text>{moment.story}</Text>
+
           </View>
           );
         })}
@@ -301,6 +304,12 @@ var styles = StyleSheet.create({
   tabText: {
     color: 'white',
     margin: 50,
+  },
+
+  momentPhoto: {
+    flex:1,
+    width: 400,
+    height: 400,
   },
 });
 

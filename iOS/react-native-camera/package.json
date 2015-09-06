@@ -1,0 +1,56 @@
+{
+  "name": "react-native-camera",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lwansbrough/react-native-camera.git"
+  },
+  "version": "0.3.3",
+  "description": "A Camera component for React Native. Also reads barcodes.",
+  "main": "Camera.ios.js",
+  "author": {
+    "name": "Lochlan Wansbrough",
+    "email": "lochie@live.com",
+    "url": "http://lwansbrough.com"
+  },
+  "nativePackage": true,
+  "peerDependencies": {
+    "react-native": "*"
+  },
+  "keywords": [
+    "react-native",
+    "react",
+    "native",
+    "camera",
+    "qr",
+    "code",
+    "barcode"
+  ],
+  "gitHead": "b1daed1e61d73c57502b720fb20ff9a6feacc52b",
+  "bugs": {
+    "url": "https://github.com/lwansbrough/react-native-camera/issues"
+  },
+  "homepage": "https://github.com/lwansbrough/react-native-camera#readme",
+  "_id": "react-native-camera@0.3.3",
+  "scripts": {},
+  "_shasum": "86f124af7e20938fabea54649c0b577765776422",
+  "_from": "react-native-camera@latest",
+  "_npmVersion": "2.13.0",
+  "_nodeVersion": "2.2.1",
+  "_npmUser": {
+    "name": "lwansbrough",
+    "email": "lochie@live.com"
+  },
+  "maintainers": [
+    {
+      "name": "lwansbrough",
+      "email": "lochie@live.com"
+    }
+  ],
+  "dist": {
+    "shasum": "86f124af7e20938fabea54649c0b577765776422",
+    "tarball": "http://registry.npmjs.org/react-native-camera/-/react-native-camera-0.3.3.tgz"
+  },
+  "directories": {},
+  "_resolved": "https://registry.npmjs.org/react-native-camera/-/react-native-camera-0.3.3.tgz",
+  "readme": "ERROR: No README data found!"
+}
