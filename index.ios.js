@@ -19,6 +19,7 @@ var {
   Image,
   ListView,
   ScrollView,
+  SegmentedControlIOS,
   StyleSheet,
   TabBarIOS,
   Text,
@@ -277,6 +278,19 @@ var Header = React.createClass({
   }
 })
 
+var Grid = React.createClass({
+  render(){
+    var moments = MOMENTS.map(function(moment) {
+    return(
+        <Image source={moment.image} style={styles.grid}/>
+      )
+    })
+    return <ScrollView>{moments}</ScrollView>
+    //return <Text> ballz </Text>;
+    //return <Image source={MOMENTS[0].image} style={styles.grid} />;
+  }
+})
+
 var MeView = React.createClass({
   render: function() {
     return (
@@ -284,13 +298,51 @@ var MeView = React.createClass({
         <StatusBarBox />
         <Header
           profile={this.props.profile || defaultProfile}
-          name={this.props.name || 'John Doe'}
-        />
-        <Needs />
-      </View>
+          name={this.props.name || 'John Doe'} />
+      <Grid />
+    </View>
     );
   },
 });
+
+var MomentsNeedsControl = React.createClass({
+  getInitialState(){
+    return {
+      values:['Moments', 'Needs'],
+      value: 'Moments',
+      selectedIndex: 0
+    };
+  },
+
+  render() {
+    return (
+      <View style={styles.segmentedControl}>
+        <SegmentedControlIOS
+          values={this.state.values}
+          selectedIndex={this.state.selectedIndex}
+          onChange={this._onChange}
+          onValueChange={this._onValueChange} />
+        <Text style={styles.text} >
+          Value: {this.state.value}
+        </Text>
+        
+      </View>
+    );
+  },
+
+  _onChange(event) {
+    this.setState({
+      selectedIndex: event.nativeEvent.selectedSegmentIndex,
+    });
+  },
+
+  _onValueChange(value) {
+    this.setState({
+      value: value,
+    });
+  }
+});
+
 
 var Needs = React.createClass({
   render: function() {
@@ -471,14 +523,14 @@ var styles = StyleSheet.create({
   moment: {
     flexDirection:'column',
     marginBottom: 25,
-    shadowColor: '#000000',
-    shadowOpacity: 0.50,
-    shadowRadius: 1,
-    shadowOffset: {
-      height: 0,
-      width: 1
-    },
-    backgroundColor:'#FFFFFF',
+    // shadowColor: '#000000',
+    // shadowOpacity: 0.50,
+    // shadowRadius: 1,
+    // shadowOffset: {
+    //   height: 0,
+    //   width: 1
+    // },
+    // backgroundColor:'#FFFFFF',
   },
   momentPhoto: {
     flex:1,
@@ -509,6 +561,18 @@ var styles = StyleSheet.create({
       color: '#808080',
       fontFamily: 'Avenir',
       textAlign: 'center',
+  },
+  segmentedControl: {
+    margin: 10,
+  },
+  grid: {
+    backgroundColor: '#0000FF',
+    flexWrap: 'wrap',
+    flexDirection: 'row',
+    
+    height: 380,
+    width: 380,
+    flex: 1,
   },
 });
 
