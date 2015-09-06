@@ -200,6 +200,8 @@ var AddView = React.createClass({
          console.log('success: ', data);
          //var uri =
          MOCK_IMG = data.edges[0].node.image;
+         MOCK_IMG.height = 200;
+         MOCK_IMG.width = 200;
        },
        (error) => {
          console.log('error: ', error);
