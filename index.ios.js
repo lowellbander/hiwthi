@@ -153,7 +153,7 @@ var Moment = React.createClass({
         </TouchableHighlight>
         <TouchableHighlight onPress={this._handlePressHomeless}>
           <Text style={styles.momentNameText}>
-            x {moment.homeless}
+            with {moment.homeless}
           </Text>
         </TouchableHighlight>
         <Text style={styles.momentLocationText}>{moment.location}</Text>
@@ -275,6 +275,7 @@ var FeedView = React.createClass({
               <MeView
                 profile={this.state.profile}
                 name={this.state.name}
+                inModal={true}
               />
               <Button
                 onPress={this.toggleModal.bind(this, false)}
@@ -308,6 +309,15 @@ var Avatar = React.createClass({
 
 var Header = React.createClass({
   render: function(){
+  var needs = <Button
+    style={styles.button}
+    onPress={this._showNeeds}
+  >
+    Needs
+  </Button>;
+  if (this.props.inModal) {
+    needs = null;
+  }
     return(
       <View style={styles.headerContainer}>
           <Avatar profile={this.props.profile} />
@@ -318,12 +328,18 @@ var Header = React.createClass({
             <Text style={styles.xMomentsText}>
             19 Moments
             </Text>
+            <View style={styles.buttonContainer}>
             <Button style={styles.button} onPress={this._handlePress}>
               Follow
             </Button>
+            {needs}
+            </View>
           </View>
       </View>
     );
+  },
+  _showNeeds: function() {
+    this.props.showNeeds();
   }
 })
 
@@ -335,22 +351,61 @@ var Grid = React.createClass({
       )
     })
     return <ScrollView>{moments}</ScrollView>
-    //return <Text> ballz </Text>;
-    //return <Image source={MOMENTS[0].image} style={styles.grid} />;
   }
 })
 
 var MeView = React.createClass({
+  getInitialState: function() {
+    return {
+      modalVisible: false,
+    }
+  },
   render: function() {
+    var modalBackgroundStyle = {
+      backgroundColor: this.state.transparent ? 'rgba(0, 0, 0, 0.5)' : '#f5fcff',
+    };
+    var innerContainerTransparentStyle = this.state.transparent
+      ? {backgroundColor: '#fff', padding: 20}
+      : null;
+    var grid = <Grid />;
+    if (this.props.inModal) {
+      grid = <Needs />;
+    }
+    console.log(this.props);
     return (
       <View style={ styles.pageView }>
         <StatusBarBox />
         <Header
           profile={this.props.profile || defaultProfile}
-          name={this.props.name || 'John Doe'} />
-      <Grid />
+          name={this.props.name || 'John Doe'}
+          showNeeds={this.showNeeds}
+          inModal={this.props.inModal}
+        />
+      {grid}
+      <Modal
+        animated={true}
+        transparent={true}
+        visible={this.state.modalVisible}>
+        <View style={[styles.container, modalBackgroundStyle]}>
+          <View style={[styles.innerContainer, innerContainerTransparentStyle]}>
+            <Needs />
+            <Button
+              style={styles.welcomeButton}
+              onPress={this.hideNeeds}
+            >
+              Close
+            </Button>
+          </View>
+        </View>
+      </Modal>
     </View>
     );
+  },
+  showNeeds: function() {
+    this.setState({modalVisible: true});
+  },
+  hideNeeds: function() {
+    this.setState({modalVisible: false});
   },
 });
 
@@ -374,7 +429,7 @@ var MomentsNeedsControl = React.createClass({
         <Text style={styles.text} >
           Value: {this.state.value}
         </Text>
-        
+
       </View>
     );
   },
@@ -411,7 +466,7 @@ var Needs = React.createClass({
 var Need = React.createClass({
   render: function() {
     return (
-      <Text>> {this.props.need}</Text>
+      <Text> [ ] {this.props.need}</Text>
     );
   }
 });
@@ -547,8 +602,9 @@ var styles = StyleSheet.create({
   },
   button:{
       flex:1,
-      width: 85,
+      width: 80,
       marginTop: 10,
+      marginRight: 10,
       color: '#007AFF',
       fontSize: 18,
       textAlign:'center',
@@ -556,7 +612,9 @@ var styles = StyleSheet.create({
       borderRadius: 8,
       borderColor: '#007Aff',
       padding: 4,
-
+  },
+  buttonContainer: {
+    flexDirection: 'row',
   },
   mapView: {
     flex: 1,
@@ -630,7 +688,7 @@ var styles = StyleSheet.create({
     backgroundColor: '#0000FF',
     flexWrap: 'wrap',
     flexDirection: 'row',
-    
+
     height: 380,
     width: 380,
     flex: 1,
