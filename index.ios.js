@@ -33,6 +33,13 @@ var HOMELESS_NAMES = [
   'Jane Weatherly',
 ];
 
+var LOCATIONS = [
+  'Folkstowne, Virginia',
+  'Narnia, Conneticut',
+  'Blakesville, Florida',
+  'Chicago, Illinois',
+];
+
 var markers = [
   {
     latitude: 34.07,
@@ -357,10 +364,11 @@ var AddView = React.createClass({
        (data) => {
          console.log('success: ', data);
          var img = data.edges[0].node.image;
+         var random = Math.random();
          var moment = {
            homed: "Lowell Bander",
-           homeless: HOMELESS_NAMES[Math.floor(Math.random()*HOMELESS_NAMES.length)],
-           location: "An Island Somewhere",
+           homeless: HOMELESS_NAMES[Math.floor(random*HOMELESS_NAMES.length)],
+           location: LOCATIONS[Math.floor(random*LOCATIONS.length)],
            image: img,
            story: 'Be free as a bird.',
          };
