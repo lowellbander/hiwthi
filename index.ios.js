@@ -225,12 +225,14 @@ var Onboarding = React.createClass({
             <Text style={styles.title}>Where the Heart is</Text>
             <Text style={styles.welcome}>Many who live on the streets battle the feeling that they’re inadequate or nonexistent to the rest of the world.</Text>
             <Text style={styles.welcome}>We believe that fostering meaningful interactions between homed and homeless individuals vitalizes community health.</Text>
+            <View style={styles.startButton}>
             <Button
               style={styles.welcomeButton}
               onPress={this._close}
             >
               Lets Get Started
             </Button>
+            </View>
           </View>
         </View>
       </Modal>
@@ -708,7 +710,10 @@ var styles = StyleSheet.create({
   },
   scrollGridContainer: {
     height:1000,
-  }
+  },
+  startButton: {
+    alignSelf: 'center',
+  },
 });
 
 AppRegistry.registerComponent('hiwthi', () => hiwthi);
