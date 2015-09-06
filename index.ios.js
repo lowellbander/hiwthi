@@ -26,6 +26,26 @@ var {
   View,
 } = React;
 
+var HOMELESS_NAMES = [
+  'Joe Schmo',
+  'Edward Blake',
+  'Elenore Foster',
+  'Jane Weatherly',
+];
+
+var LOCATIONS = [
+  'Folkstowne, Virginia',
+  'Narnia, Conneticut',
+  'Blakesville, Florida',
+  'Chicago, Illinois',
+];
+
+var STORIES = [
+  'We met on the corner of 5th and Allensway this afternoon. They had been through a lot these past several years and were very happy to have someone to talk to. I bought them some fruit from the corner store.',
+  'They caught my eye on my way home from work. I built up the courage to approach them and am happy I did, because they had a very interesting story to tell. They were deeply appreciative of the ineraction.',
+  'I\'m moving out of my apartment next weekend, so I have a lot of stuff to give away. I was just about to just give it to a local charity, but instead felt as though this person might more deeply appreicate the donation.',
+];
+
 var markers = [
   {
     latitude: 34.07,
@@ -350,12 +370,13 @@ var AddView = React.createClass({
        (data) => {
          console.log('success: ', data);
          var img = data.edges[0].node.image;
+         var random = Math.random();
          var moment = {
-           homed: "Jamestown Wu",
-           homeless: "Steve McQueen",
-           location: "An Island Somewhere",
+           homed: "Lowell Bander",
+           homeless: HOMELESS_NAMES[Math.floor(random*HOMELESS_NAMES.length)],
+           location: LOCATIONS[Math.floor(random*LOCATIONS.length)],
            image: img,
-           story: 'Be free as a bird.',
+           story: STORIES[Math.floor(random*STORIES.length)],
          };
          MOMENTS.unshift(moment);
          that.props.whenDone();
