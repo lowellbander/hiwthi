@@ -14,6 +14,7 @@ var {
   MapView,
   Image,
   ListView,
+  ScrollView,
   StyleSheet,
   TabBarIOS,
   Text,
@@ -149,10 +150,10 @@ var FeedView = React.createClass({
         return <Moment moment={moment} />;
       })
       return(
-        <View>
+        <ScrollView>
           <StatusBarBox />
           {moments}
-        </View>
+        </ScrollView>
       );
   },
 })
