@@ -26,6 +26,13 @@ var {
   View,
 } = React;
 
+var HOMELESS_NAMES = [
+  'Joe Schmo',
+  'Edward Blake',
+  'Elenore Foster',
+  'Jane Weatherly',
+];
+
 var markers = [
   {
     latitude: 34.07,
@@ -351,8 +358,8 @@ var AddView = React.createClass({
          console.log('success: ', data);
          var img = data.edges[0].node.image;
          var moment = {
-           homed: "Jamestown Wu",
-           homeless: "Steve McQueen",
+           homed: "Lowell Bander",
+           homeless: HOMELESS_NAMES[Math.floor(Math.random()*HOMELESS_NAMES.length)],
            location: "An Island Somewhere",
            image: img,
            story: 'Be free as a bird.',
