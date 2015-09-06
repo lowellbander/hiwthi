@@ -72,6 +72,10 @@ var hiwthi = React.createClass({
     }
   },
 
+  returnToFeed: function() {
+    this._changeTab('feed');
+  },
+
   render: function() {
     return (
       <TabBarIOS tint="white" barTintColor="ghostwhite">
@@ -101,7 +105,7 @@ var hiwthi = React.createClass({
           icon={ require('image!plus') }
           onPress={ () => this._changeTab('add') }
           selected={ this.state.selectedTab === 'add' }>
-          <AddView />
+          <AddView whenDone={this.returnToFeed}/>
         </TabBarIOS.Item>
       </TabBarIOS>
     );
@@ -287,6 +291,7 @@ var AddView = React.createClass({
     );
   },
   _takePicture() {
+   var that = this;
    this.refs.cam.capture(function(err, data) {
      console.log(err, data);
      CameraRoll.getPhotos(
@@ -302,6 +307,7 @@ var AddView = React.createClass({
            story: 'Be free as a bird.',
          };
          MOMENTS.unshift(moment);
+         that.props.whenDone();
        },
        (error) => {
          console.log('error: ', error);
