@@ -13,6 +13,8 @@ var {
   AppRegistry,
   MapView,
   Image,
+  ListView,
+  ScrollView,
   StyleSheet,
   TabBarIOS,
   Text,
@@ -37,15 +39,19 @@ var markers = [
 
 var MOMENTS = [
   {
-    homed: "Lowell Bander",
-    homeless: "Joe Schmo",
-    story: "I met Joe near the froyo shop in the 310.",
+    homed: "Natalie Ethell",
+    homeless: "Akshay Bakshi",
+    location: "Dnipropetrovsk, Ukraine",
+    image: {uri: "https://igcdn-photos-h-a.akamaihd.net/hphotos-ak-xaf1/t51.2885-15/e35/11848827_1491796057801111_1023068330_n.jpg"},
+    story: "I met Akshay near the smore shop in the 314. He was shivering in the cold, matted hair and ragged robes. No one deserves to starve, whatever their past sins. So, I bought him multi-coloured pebble pyjamas and taught him to code so he could get free stuff at hackathons."
   },
   {
-    homed: "Natalie Ethell",
-    homeless: "Elenore Schmo",
-    story: "I met Elenore near the smore shop in the 314."
-  }
+    homed: "Lowell Bander",
+    homeless: "Joe Schmo",
+    location: "Warsaw, Poland",
+    image: {uri: "https://igcdn-photos-g-a.akamaihd.net/hphotos-ak-xaf1/t51.2885-15/e35/11427426_477276085785862_356093719_n.jpg"},
+    story: "I met Joe near the froyo shop in the 310.",
+  },
 ];
 
 var hiwthi = React.createClass({
@@ -96,30 +102,55 @@ var hiwthi = React.createClass({
   },
 });
 
+var Moment = React.createClass({
+  render: function(){
+            var moment = this.props.moment;
+
+    return(
+        <View style={styles.moment}>
+          <Text style={styles.momentNameText}>{moment.homed} x {moment.homeless}</Text>
+          <Text style={styles.momentLocationText}>{moment.location}</Text>
+          <Image source={moment.image} style={styles.momentPhoto} />
+          <Text style={styles.momentStoryText}>{moment.story}</Text>
+        </View>
+    )
+  }
+})
+
+var StatusBarBox = React.createClass({
+  render: function(){
+      return(
+        <View style={styles.statusBarBox}>
+        <Text> </Text>
+        </View>
+      )
+  }
+})
+
 var FeedView = React.createClass({
   getInitialState: function() {
     return {
       moments: MOMENTS,
     }
   },
-  render: function() {
-    return (
-      <View style={ styles.pageView }>
-        <Text>THIS IS THE FEED VIEW</Text>
-        {this.state.moments.map(function (moment) {
-          return (
-          <View>
-            <Text>{moment.homed}</Text>
-            <Text>{moment.homeless}</Text>
-            <Text>{moment.story}</Text>
-          </View>
-          );
-        })}
-      </View>
-    );
-  },
-});
 
+  render: function() {
+      var moments = this.state.moments.map(function (moment) {
+        return <Moment moment={moment} />;
+      })
+      return(
+        <ScrollView>
+          <StatusBarBox />
+          {moments}
+        </ScrollView>
+      );
+  },
+})
+    //       return (
+    //         <Moment moment={moment} />
+    //       )
+  
+    //     return <View> {moments}   
 var Avatar = React.createClass({
   render: function(){
     return(
@@ -156,6 +187,7 @@ var MeView = React.createClass({
   render: function() {
     return (
       <View style={ styles.pageView }>
+        <StatusBarBox />
         <Header />
       </View>
     );
@@ -255,7 +287,7 @@ var styles = StyleSheet.create({
     flex:7,
   },
   nameText: {
-      fontSize: 32,
+      fontSize: 28,
       fontFamily: 'Avenir',
       marginBottom: -5,
   },
@@ -297,6 +329,49 @@ var styles = StyleSheet.create({
   tabText: {
     color: 'white',
     margin: 50,
+  },
+
+  moment: {
+    flexDirection:'column',
+    marginBottom: 25,
+    shadowColor: '#000000',
+    shadowOpacity: 0.50,
+    shadowRadius: 1,
+    shadowOffset: {
+      height: 0,
+      width: 1
+    },
+    backgroundColor:'#FFFFFF',
+  },
+  momentPhoto: {
+    flex:1,
+    width: 400,
+    height: 400,
+  },
+  statusBarBox: {
+    height: 20,
+    flex: 1,
+  },
+  momentNameText: {
+      fontSize: 24,
+      fontFamily: 'Avenir',
+      margin:10,
+      marginBottom: 0,
+      textAlign: 'center',
+  },
+  momentStoryText: {
+      fontSize: 16,
+      fontFamily: 'Georgia',
+      margin: 15,
+  },
+  momentLocationText: {
+      margin: 0,
+      marginTop: -3,
+      marginBottom: 3,
+      fontSize: 12,
+      color: '#808080',
+      fontFamily: 'Avenir',
+      textAlign: 'center',
   },
 });
 
