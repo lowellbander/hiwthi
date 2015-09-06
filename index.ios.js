@@ -48,13 +48,23 @@ var MOMENTS = [
   }
 ];
 
+var NEEDS = [
+  'food',
+  'soap',
+  'blankets',
+  'socks & underwear',
+  'soft foods',
+  'bottled water',
+  'backpack',
+];
+
 var hiwthi = React.createClass({
   getInitialState() {
     return {
       selectedTab: 'feed'
     }
   },
-  
+
   render: function() {
     return (
       <TabBarIOS tint="white" barTintColor="ghostwhite">
@@ -157,9 +167,33 @@ var MeView = React.createClass({
     return (
       <View style={ styles.pageView }>
         <Header />
+        <Needs />
       </View>
     );
   },
+});
+
+var Needs = React.createClass({
+  render: function() {
+    var needs = (NEEDS.map(function(need) {
+      return (
+        <Need need={need} />
+      );
+    }));
+    return (
+      <View>
+        {needs}
+      </View>
+    );
+  }
+});
+
+var Need = React.createClass({
+  render: function() {
+    return (
+      <Text>> {this.props.need}</Text>
+    );
+  }
 });
 
 var MapView1 = React.createClass({
@@ -175,7 +209,7 @@ var MapView1 = React.createClass({
   render: function() {
     return (
       <View style={styles.mapView}>
-      <MapView 
+      <MapView
       style={styles.map}
           onRegionChange={this._onRegionChange}
           onRegionChangeComplete={this._onRegionChangeComplete}
