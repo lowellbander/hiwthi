@@ -184,7 +184,7 @@ var MeView = React.createClass({
     return (
       <View style={ styles.pageView }>
         <Header />
-        <Needs />
+        <Needs toggleModal={this.toggleModal}/>
         <Modal
           animated={this.state.animated}
           transparent={this.state.transparent}
@@ -264,9 +264,13 @@ var ModalExample = React.createClass({
 
 var Needs = React.createClass({
   render: function() {
+    var that = this;
     var needs = (NEEDS.map(function(need) {
       return (
-        <Need need={need} />
+        <Need
+          need={need}
+          toggleModal={that.props.toggleModal}
+        />
       );
     }));
     return (
@@ -280,8 +284,13 @@ var Needs = React.createClass({
 var Need = React.createClass({
   render: function() {
     return (
-      <Text>> {this.props.need}</Text>
+      <TouchableHighlight onPress={this._handlePress}>
+        <Text >> {this.props.need}</Text>
+      </TouchableHighlight>
     );
+  },
+  _handlePress: function() {
+    this.props.toggleModal(true, this.props.need);
   }
 });
 
