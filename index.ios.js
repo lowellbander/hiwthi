@@ -188,6 +188,7 @@ var FeedView = React.createClass({
         <View style={[styles.container, modalBackgroundStyle]}>
           <View style={[styles.innerContainer, innerContainerTransparentStyle]}>
             <Text>{this.state.text}</Text>
+            <MeView />
             <Button
               onPress={this.toggleModal.bind(this, false)}
               style={styles.modalButton}>
