@@ -11,6 +11,7 @@ var Camera = require('react-native-camera');
 
 var {
   AppRegistry,
+  CameraRoll,
   MapView,
   Image,
   ListView,
@@ -119,7 +120,7 @@ var Moment = React.createClass({
     return(
         <View style={styles.moment}>
           <Text style={styles.momentNameText}>{moment.homed} x {moment.homeless}</Text>
-          
+
           <Image source={moment.image} style={styles.momentPhoto} />
           <Text style={styles.momentStoryText}>{moment.story}</Text>
           <Text>{moment.location}</Text>
@@ -160,8 +161,8 @@ var FeedView = React.createClass({
     //       return (
     //         <Moment moment={moment} />
     //       )
-  
-    //     return <View> {moments}   
+
+    //     return <View> {moments}
 var Avatar = React.createClass({
   render: function(){
     return(
@@ -285,6 +286,29 @@ var AddView = React.createClass({
       </Camera>
     );
   },
+  _takePicture() {
+   this.refs.cam.capture(function(err, data) {
+     console.log(err, data);
+     CameraRoll.getPhotos(
+       {first:1},
+       (data) => {
+         console.log('success: ', data);
+         var img = data.edges[0].node.image;
+         var moment = {
+           homed: "Jamestown Wu",
+           homeless: "Steve McQueen",
+           location: "An Island Somewhere",
+           image: img,
+           story: 'Be free as a bird.',
+         };
+         MOMENTS.unshift(moment);
+       },
+       (error) => {
+         console.log('error: ', error);
+       }
+     );
+   });
+ },
 });
 
 var styles = StyleSheet.create({
