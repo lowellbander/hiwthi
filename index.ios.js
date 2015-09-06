@@ -101,32 +101,56 @@ var hiwthi = React.createClass({
   },
 });
 
+var Moment = React.createClass({
+  render: function(){
+            var moment = this.props.moment;
+
+    return(
+        <View style={styles.moment}>
+          <Text style={styles.momentNameText}>{moment.homed} x {moment.homeless}</Text>
+          
+          <Image source={moment.image} style={styles.momentPhoto} />
+          <Text style={styles.momentStoryText}>{moment.story}</Text>
+          <Text>{moment.location}</Text>
+        </View>
+    )
+  }
+})
+
+var StatusBarBox = React.createClass({
+  render: function(){
+      return(
+        <View style={styles.statusBarBox}>
+        <Text> </Text>
+        </View>
+      )
+  }
+})
+
 var FeedView = React.createClass({
   getInitialState: function() {
     return {
       moments: MOMENTS,
     }
   },
+
   render: function() {
-    return (
-      <View style={ styles.pageView }>
-        <Text>THIS IS THE FEED VIEW</Text>
-        {this.state.moments.map(function (moment) {
-          return (
-          <View>
-            <Text>{moment.homed}</Text>
-            <Text>{moment.homeless}</Text>
-            <Image source={moment.image} style={styles.momentPhoto} />
-            <Text>{moment.story}</Text>
-
-          </View>
-          );
-        })}
-      </View>
-    );
+      var moments = this.state.moments.map(function (moment) {
+        return <Moment moment={moment} />;
+      })
+      return(
+        <View>
+          <StatusBarBox />
+          {moments}
+        </View>
+      );
   },
-});
-
+})
+    //       return (
+    //         <Moment moment={moment} />
+    //       )
+  
+    //     return <View> {moments}   
 var Avatar = React.createClass({
   render: function(){
     return(
@@ -163,6 +187,7 @@ var MeView = React.createClass({
   render: function() {
     return (
       <View style={ styles.pageView }>
+        <StatusBarBox />
         <Header />
       </View>
     );
@@ -262,7 +287,7 @@ var styles = StyleSheet.create({
     flex:7,
   },
   nameText: {
-      fontSize: 32,
+      fontSize: 28,
       fontFamily: 'Avenir',
       marginBottom: -5,
   },
@@ -306,10 +331,27 @@ var styles = StyleSheet.create({
     margin: 50,
   },
 
+  moment: {
+    flexDirection:'column',
+  },
   momentPhoto: {
     flex:1,
     width: 400,
     height: 400,
+  },
+  statusBarBox: {
+    height: 20,
+    flex: 1,
+  },
+  momentNameText: {
+      fontSize: 24,
+      fontFamily: 'Avenir',
+      margin:10,
+  },
+  momentStoryText: {
+      fontSize: 16,
+      fontFamily: 'Georgia',
+      margin: 10,
   },
 });
 
