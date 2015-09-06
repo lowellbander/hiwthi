@@ -51,14 +51,20 @@ var markers = [
   {
     latitude: 34.07,
     longitude: -118.44,
-    title: 'UCLA',
+    title: 'Jan Smithers',
     subtitle: 'Westwood'
   },
   {
-    latitude: 39.9011,
-    longitude: -75.1719,
-    title: 'PennApps',
-    subtitle: 'Philadelphia',
+    latitude: 34.07,
+    longitude: -118.34,
+    title: 'Gilbert White',
+    subtitle: 'Downtown'
+  },
+  {
+    latitude: 34.17,
+    longitude: -118.34,
+    title: 'Stacy Phillips',
+    subtitle: 'Glendale'
   },
 ];
 
@@ -475,7 +481,12 @@ var Need = React.createClass({
 var MapView1 = React.createClass({
   getInitialState() {
     return {
-      mapRegion: null,
+      mapRegion: {
+        latitude: 34.07,
+        longitude: -118.44,
+        latitudeDelta: 1,
+        longitudeDelta: 1,
+      },
       mapRegionInput: null,
       annotations: null,
       isFirstLoad: true,
