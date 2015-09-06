@@ -19,6 +19,7 @@ var {
   Image,
   ListView,
   ScrollView,
+  SegmentedControlIOS,
   StyleSheet,
   TabBarIOS,
   Text,
@@ -266,11 +267,54 @@ var MeView = React.createClass({
           profile={this.props.profile || defaultProfile}
           name={this.props.name || 'John Doe'}
         />
+        <MomentsNeedsControl />
         <Needs />
       </View>
     );
   },
 });
+
+var MomentsNeedsControl = React.createClass({
+  getInitialState(){
+    return {
+      values:['Moments', 'Needs'],
+      value: 'Moments',
+      selectedIndex: 0
+    };
+  },
+
+  render() {
+    return (
+      <View style={styles.segmentedControl}>
+        <SegmentedControlIOS
+          values={this.state.values}
+          selectedIndex={this.state.selectedIndex}
+          onChange={this._onChange}
+          onValueChange={this._onValueChange} />
+        <Text style={styles.text} >
+          Value: {this.state.value}
+        </Text>
+        <Text style={styles.text} >
+          Index: {this.state.selectedIndex}
+        </Text>
+        
+      </View>
+    );
+  },
+
+  _onChange(event) {
+    this.setState({
+      selectedIndex: event.nativeEvent.selectedSegmentIndex,
+    });
+  },
+
+  _onValueChange(value) {
+    this.setState({
+      value: value,
+    });
+  }
+});
+
 
 var Needs = React.createClass({
   render: function() {
@@ -450,14 +494,14 @@ var styles = StyleSheet.create({
   moment: {
     flexDirection:'column',
     marginBottom: 25,
-    shadowColor: '#000000',
-    shadowOpacity: 0.50,
-    shadowRadius: 1,
-    shadowOffset: {
-      height: 0,
-      width: 1
-    },
-    backgroundColor:'#FFFFFF',
+    // shadowColor: '#000000',
+    // shadowOpacity: 0.50,
+    // shadowRadius: 1,
+    // shadowOffset: {
+    //   height: 0,
+    //   width: 1
+    // },
+    // backgroundColor:'#FFFFFF',
   },
   momentPhoto: {
     flex:1,
@@ -489,6 +533,9 @@ var styles = StyleSheet.create({
       fontFamily: 'Avenir',
       textAlign: 'center',
   },
+  segmentedControl: {
+    margin: 5,
+  }
 });
 
 AppRegistry.registerComponent('hiwthi', () => hiwthi);
