@@ -11,12 +11,15 @@ var Camera = require('react-native-camera');
 
 var {
   AppRegistry,
-  MapView,
   Image,
+  MapView,
+  Modal,
   StyleSheet,
+  SwitchIOS,
   TabBarIOS,
   Text,
   TouchableHighlight,
+  TouchableOpacity,
   View,
 } = React;
 
@@ -163,11 +166,97 @@ var Header = React.createClass({
 })
 
 var MeView = React.createClass({
+  getInitialState: function() {
+    return {
+      modalTransparent: false,
+      animated: true,
+      modalVisible: false,
+      transparent: false,
+    };
+  },
   render: function() {
+    var modalBackgroundStyle = {
+      backgroundColor: this.state.transparent ? 'rgba(0, 0, 0, 0.5)' : '#f5fcff',
+    };
+    var innerContainerTransparentStyle = this.state.transparent
+      ? {backgroundColor: '#fff', padding: 20}
+      : null;
     return (
       <View style={ styles.pageView }>
         <Header />
         <Needs />
+        <Modal
+          animated={this.state.animated}
+          transparent={this.state.transparent}
+          visible={this.state.modalVisible}>
+          <View style={[styles.container, modalBackgroundStyle]}>
+            <View style={[styles.innerContainer, innerContainerTransparentStyle]}>
+              <Text>{this.state.text}</Text>
+              <Button
+                onPress={this.toggleModal.bind(this, false)}
+                style={styles.modalButton}>
+                Close
+              </Button>
+            </View>
+          </View>
+        </Modal>
+
+        <Button onPress={this.toggleModal.bind(this, true, 'text phrase')}>
+          Present
+        </Button>
+      </View>
+    );
+  },
+  toggleModal: function(visible, text = '') {
+    this.setState({
+      modalVisible: visible,
+      text: text,
+    });
+  },
+});
+
+var ModalExample = React.createClass({
+  getInitialState() {
+    return {
+      animated: true,
+      modalVisible: false,
+      transparent: false,
+    };
+  },
+
+  _setModalVisible(visible) {
+    this.setState({modalVisible: visible});
+  },
+
+  render() {
+    var modalBackgroundStyle = {
+      backgroundColor: this.state.transparent ? 'rgba(0, 0, 0, 0.5)' : '#f5fcff',
+    };
+    var innerContainerTransparentStyle = this.state.transparent
+      ? {backgroundColor: '#fff', padding: 20}
+      : null;
+
+    return (
+      <View>
+        <Modal
+          animated={this.state.animated}
+          transparent={this.state.transparent}
+          visible={this.state.modalVisible}>
+          <View style={[styles.container, modalBackgroundStyle]}>
+            <View style={[styles.innerContainer, innerContainerTransparentStyle]}>
+              <Text>This modal was presented {this.state.animated ? 'with' : 'without'} animation.</Text>
+              <Button
+                onPress={this._setModalVisible.bind(this, false)}
+                style={styles.modalButton}>
+                Close
+              </Button>
+            </View>
+          </View>
+        </Modal>
+
+        <Button onPress={this._setModalVisible.bind(this, true)}>
+          Present
+        </Button>
       </View>
     );
   },
