@@ -11,6 +11,7 @@ var Camera = require('react-native-camera');
 
 var {
   AppRegistry,
+  MapView,
   Image,
   StyleSheet,
   TabBarIOS,
@@ -18,6 +19,21 @@ var {
   TouchableHighlight,
   View,
 } = React;
+
+var markers = [
+  {
+    latitude: 34.07,
+    longitude: -118.44,
+    title: 'UCLA',
+    subtitle: 'Westwood'
+  },
+  {
+    latitude: 39.9011,
+    longitude: -75.1719,
+    title: 'PennApps',
+    subtitle: 'Philadelphia',
+  },
+];
 
 var MOMENTS = [
   {
@@ -61,7 +77,7 @@ var hiwthi = React.createClass({
           icon={ require('image!map') }
           onPress={ () => this._changeTab('map') }
           selected={ this.state.selectedTab === 'map' }>
-          <MapView />
+          <MapView1 />
         </TabBarIOS.Item>
         <TabBarIOS.Item
           title="Add"
@@ -146,11 +162,26 @@ var MeView = React.createClass({
   },
 });
 
-var MapView = React.createClass({
+var MapView1 = React.createClass({
+  getInitialState() {
+    return {
+      mapRegion: null,
+      mapRegionInput: null,
+      annotations: null,
+      isFirstLoad: true,
+    };
+  },
+
   render: function() {
     return (
-      <View style={ styles.pageView }>
-        <Text>THIS IS THE MAP VIEW</Text>
+      <View style={styles.mapView}>
+      <MapView 
+      style={styles.map}
+          onRegionChange={this._onRegionChange}
+          onRegionChangeComplete={this._onRegionChangeComplete}
+          region={this.state.mapRegion || undefined}
+          annotations = {markers}
+      />
       </View>
     );
   },
@@ -244,6 +275,20 @@ var styles = StyleSheet.create({
       borderColor: '#007Aff',
       padding: 4,
 
+  },
+  mapView: {
+    flex: 1,
+    alignItems: 'stretch'
+  },
+  map: {
+    alignSelf: 'center',
+    height: 625,
+    width: 350,
+    marginTop: 20,
+    marginBottom: 20,
+    margin: 5,
+    borderWidth: 1,
+    borderColor: '#000000',
   },
   tabContent: {
     flex: 1,
