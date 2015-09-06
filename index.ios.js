@@ -333,6 +333,15 @@ var styles = StyleSheet.create({
 
   moment: {
     flexDirection:'column',
+    marginBottom: 25,
+    shadowColor: '#000000',
+    shadowOpacity: 0.50,
+    shadowRadius: 1,
+    shadowOffset: {
+      height: 0,
+      width: 1
+    },
+    backgroundColor:'#FFFFFF',
   },
   momentPhoto: {
     flex:1,
@@ -353,7 +362,7 @@ var styles = StyleSheet.create({
   momentStoryText: {
       fontSize: 16,
       fontFamily: 'Georgia',
-      margin: 10,
+      margin: 15,
   },
   momentLocationText: {
       margin: 0,
