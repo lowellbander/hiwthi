@@ -115,7 +115,7 @@ var hiwthi = React.createClass({
           icon={ require('image!user') }
           onPress={ () => this._changeTab('me') }
           selected={ this.state.selectedTab === 'me' }>
-          <MeView />
+          <MeView isUser={true}/>
         </TabBarIOS.Item>
         <TabBarIOS.Item
           title="Map"
@@ -315,7 +315,7 @@ var Header = React.createClass({
   >
     Needs
   </Button>;
-  if (this.props.inModal) {
+  if (this.props.inModal || this.props.hideNeedsButton) {
     needs = null;
   }
     return(
@@ -380,6 +380,7 @@ var MeView = React.createClass({
           name={this.props.name || 'John Doe'}
           showNeeds={this.showNeeds}
           inModal={this.props.inModal}
+          hideNeedsButton={this.props.isUser}
         />
       {grid}
       <Modal
