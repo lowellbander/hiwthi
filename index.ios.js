@@ -187,6 +187,54 @@ var StatusBarBox = React.createClass({
   }
 })
 
+var Onboarding = React.createClass({
+  componentDidMount: function() {
+    var that = this;
+    setTimeout(function(){that.setState({onboardingVisible:true})}, 1);
+  },
+  getInitialState: function() {
+    return {
+      modalTransparent: false,
+      animated: true,
+      onboardingVisible: false,
+      transparent: false,
+    }
+  },
+  render: function() {
+    var modalBackgroundStyle = {
+      backgroundColor: this.state.transparent ? 'rgba(0, 0, 0, 0.5)' : '#f5fcff',
+    };
+    var innerContainerTransparentStyle = this.state.transparent
+      ? {backgroundColor: '#fff', padding: 20}
+      : null;
+    return (
+      <View>
+      <Modal
+        animated={this.state.animated}
+        transparent={this.state.transparent}
+        visible={this.state.onboardingVisible}>
+        <View style={[styles.container, modalBackgroundStyle]}>
+          <View style={[styles.innerContainer, innerContainerTransparentStyle]}>
+            <Text style={styles.title}>Where the Heart is</Text>
+            <Text style={styles.welcome}>Many who live on the streets battle the feeling that they’re inadequate or nonexistent to the rest of the world.</Text>
+            <Text style={styles.welcome}>We believe that fostering meaningful interactions between homed and homeless individuals vitalizes community health.</Text>
+            <Button
+              style={styles.welcomeButton}
+              onPress={this._close}
+            >
+              Lets Get Started
+            </Button>
+          </View>
+        </View>
+      </Modal>
+      </View>
+    );
+  },
+  _close: function() {
+    this.setState({onboardingVisible: false});
+  },
+});
+
 var FeedView = React.createClass({
   getInitialState: function() {
     return {
@@ -214,26 +262,27 @@ var FeedView = React.createClass({
       : null;
     return(
       <ScrollView>
+        <Onboarding />
         <StatusBarBox />
         {moments}
         <Modal
-        animated={this.state.animated}
-        transparent={this.state.transparent}
-        visible={this.state.modalVisible}>
-        <View style={[styles.container, modalBackgroundStyle]}>
-          <View style={[styles.innerContainer, innerContainerTransparentStyle]}>
-            <MeView
-              profile={this.state.profile}
-              name={this.state.name}
-            />
-            <Button
-              onPress={this.toggleModal.bind(this, false)}
-              style={styles.modalButton}>
-              Close
-            </Button>
+          animated={this.state.animated}
+          transparent={this.state.transparent}
+          visible={this.state.modalVisible}>
+          <View style={[styles.container, modalBackgroundStyle]}>
+            <View style={[styles.innerContainer, innerContainerTransparentStyle]}>
+              <MeView
+                profile={this.state.profile}
+                name={this.state.name}
+              />
+              <Button
+                onPress={this.toggleModal.bind(this, false)}
+                style={styles.modalButton}>
+                Close
+              </Button>
+            </View>
           </View>
-        </View>
-      </Modal>
+        </Modal>
       </ScrollView>
     );
   },
@@ -396,10 +445,22 @@ var styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#F5FCFF',
   },
-  welcome: {
-    fontSize: 20,
+  title: {
+    fontSize: 30,
+    marginBottom: 50,
     textAlign: 'center',
-    margin: 10,
+  },
+  welcome: {
+    fontSize: 15,
+    textAlign: 'center',
+    marginLeft: 30,
+    marginRight: 30,
+    marginBottom: 20,
+  },
+  welcomeButton: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    color: '#333333',
   },
   instructions: {
     textAlign: 'center',
