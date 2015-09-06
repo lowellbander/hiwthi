@@ -6,7 +6,9 @@
 
 var React = require('react-native');
 var Button = require('react-native-button');
-var imageLink = 'https://pbs.twimg.com/profile_images/626930521365327873/sSJzUuI__400x400.jpg';
+var defaultProfile = {
+  uri: 'https://pbs.twimg.com/profile_images/626930521365327873/sSJzUuI__400x400.jpg'
+};
 var Camera = require('react-native-camera');
 
 var {
@@ -123,9 +125,14 @@ var Moment = React.createClass({
     var moment = this.props.moment;
     return(
       <View style={styles.moment}>
-        <TouchableHighlight onPress={this._handlePress}>
+        <TouchableHighlight onPress={this._handlePressHomed}>
           <Text style={styles.momentNameText}>
-            {moment.homed} x {moment.homeless}
+            {moment.homed}
+          </Text>
+        </TouchableHighlight>
+        <TouchableHighlight onPress={this._handlePressHomeless}>
+          <Text style={styles.momentNameText}>
+            x {moment.homeless}
           </Text>
         </TouchableHighlight>
         <Text style={styles.momentLocationText}>{moment.location}</Text>
@@ -134,10 +141,18 @@ var Moment = React.createClass({
       </View>
     );
   },
-  _handlePress: function() {
+  _handlePressHomed: function() {
     this.props.handlePress(
       true,
-      this.props.moment.homed + ' x ' + this.props.moment.homeless,
+      this.props.moment.image,
+      this.props.moment.homed,
+    );
+  },
+  _handlePressHomeless: function() {
+    this.props.handlePress(
+      true,
+      this.props.moment.image,
+      this.props.moment.homeless,
     );
   },
 })
@@ -187,7 +202,10 @@ var FeedView = React.createClass({
         visible={this.state.modalVisible}>
         <View style={[styles.container, modalBackgroundStyle]}>
           <View style={[styles.innerContainer, innerContainerTransparentStyle]}>
-            <Text>{this.state.text}</Text>
+            <MeView
+              profile={this.state.profile}
+              name={this.state.name}
+            />
             <Button
               onPress={this.toggleModal.bind(this, false)}
               style={styles.modalButton}>
@@ -199,10 +217,11 @@ var FeedView = React.createClass({
       </ScrollView>
     );
   },
-  toggleModal: function(visible, text = '') {
+  toggleModal: function(visible, profile, name) {
     this.setState({
       modalVisible: visible,
-      text: text,
+      profile: profile,
+      name: name,
     });
   },
 })
@@ -210,7 +229,7 @@ var Avatar = React.createClass({
   render: function(){
     return(
         <Image
-            source={{uri: imageLink}}
+            source={this.props.profile}
             style= {styles.profilePhoto}/>
       )
 
@@ -221,10 +240,10 @@ var Header = React.createClass({
   render: function(){
     return(
       <View style={styles.headerContainer}>
-          <Avatar />
+          <Avatar profile={this.props.profile} />
           <View style={styles.infoContainer}>
             <Text style={styles.nameText}>
-            Nat Doe
+              {this.props.name}
             </Text>
             <Text style={styles.xMomentsText}>
             19 Moments
@@ -243,7 +262,10 @@ var MeView = React.createClass({
     return (
       <View style={ styles.pageView }>
         <StatusBarBox />
-        <Header />
+        <Header
+          profile={this.props.profile || defaultProfile}
+          name={this.props.name || 'John Doe'}
+        />
         <Needs />
       </View>
     );
