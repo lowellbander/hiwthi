@@ -11,6 +11,8 @@ var Camera = require('react-native-camera');
 
 var {
   AppRegistry,
+  CameraRoll,
+  Modal,
   MapView,
   Image,
   ListView,
@@ -54,13 +56,27 @@ var MOMENTS = [
   },
 ];
 
+var NEEDS = [
+  'food',
+  'soap',
+  'blankets',
+  'socks & underwear',
+  'soft foods',
+  'bottled water',
+  'backpack',
+];
+
 var hiwthi = React.createClass({
   getInitialState() {
     return {
       selectedTab: 'feed'
     }
   },
-  
+
+  returnToFeed: function() {
+    this._changeTab('feed');
+  },
+
   render: function() {
     return (
       <TabBarIOS tint="white" barTintColor="ghostwhite">
@@ -90,7 +106,7 @@ var hiwthi = React.createClass({
           icon={ require('image!plus') }
           onPress={ () => this._changeTab('add') }
           selected={ this.state.selectedTab === 'add' }>
-          <AddView />
+          <AddView whenDone={this.returnToFeed}/>
         </TabBarIOS.Item>
       </TabBarIOS>
     );
@@ -104,17 +120,26 @@ var hiwthi = React.createClass({
 
 var Moment = React.createClass({
   render: function(){
-            var moment = this.props.moment;
-
+    var moment = this.props.moment;
     return(
-        <View style={styles.moment}>
-          <Text style={styles.momentNameText}>{moment.homed} x {moment.homeless}</Text>
-          <Text style={styles.momentLocationText}>{moment.location}</Text>
-          <Image source={moment.image} style={styles.momentPhoto} />
-          <Text style={styles.momentStoryText}>{moment.story}</Text>
-        </View>
-    )
-  }
+      <View style={styles.moment}>
+        <TouchableHighlight onPress={this._handlePress}>
+          <Text style={styles.momentNameText}>
+            {moment.homed} x {moment.homeless}
+          </Text>
+        </TouchableHighlight>
+        <Text style={styles.momentLocationText}>{moment.location}</Text>
+        <Image source={moment.image} style={styles.momentPhoto} />
+        <Text style={styles.momentStoryText}>{moment.story}</Text>
+      </View>
+    );
+  },
+  _handlePress: function() {
+    this.props.handlePress(
+      true,
+      this.props.moment.homed + ' x ' + this.props.moment.homeless,
+    );
+  },
 })
 
 var StatusBarBox = React.createClass({
@@ -131,26 +156,56 @@ var FeedView = React.createClass({
   getInitialState: function() {
     return {
       moments: MOMENTS,
+      modalTransparent: false,
+      animated: true,
+      modalVisible: false,
+      transparent: false,
     }
   },
 
   render: function() {
-      var moments = this.state.moments.map(function (moment) {
-        return <Moment moment={moment} />;
-      })
-      return(
-        <ScrollView>
-          <StatusBarBox />
-          {moments}
-        </ScrollView>
-      );
+    var that = this;
+    var moments = this.state.moments.map(function (moment) {
+      return <Moment
+        moment={moment}
+        handlePress={that.toggleModal}
+      />;
+    })
+    var modalBackgroundStyle = {
+      backgroundColor: this.state.transparent ? 'rgba(0, 0, 0, 0.5)' : '#f5fcff',
+    };
+    var innerContainerTransparentStyle = this.state.transparent
+      ? {backgroundColor: '#fff', padding: 20}
+      : null;
+    return(
+      <ScrollView>
+        <StatusBarBox />
+        {moments}
+        <Modal
+        animated={this.state.animated}
+        transparent={this.state.transparent}
+        visible={this.state.modalVisible}>
+        <View style={[styles.container, modalBackgroundStyle]}>
+          <View style={[styles.innerContainer, innerContainerTransparentStyle]}>
+            <Text>{this.state.text}</Text>
+            <Button
+              onPress={this.toggleModal.bind(this, false)}
+              style={styles.modalButton}>
+              Close
+            </Button>
+          </View>
+        </View>
+      </Modal>
+      </ScrollView>
+    );
+  },
+  toggleModal: function(visible, text = '') {
+    this.setState({
+      modalVisible: visible,
+      text: text,
+    });
   },
 })
-    //       return (
-    //         <Moment moment={moment} />
-    //       )
-  
-    //     return <View> {moments}   
 var Avatar = React.createClass({
   render: function(){
     return(
@@ -189,9 +244,33 @@ var MeView = React.createClass({
       <View style={ styles.pageView }>
         <StatusBarBox />
         <Header />
+        <Needs />
       </View>
     );
   },
+});
+
+var Needs = React.createClass({
+  render: function() {
+    var needs = (NEEDS.map(function(need) {
+      return (
+        <Need need={need} />
+      );
+    }));
+    return (
+      <View>
+        {needs}
+      </View>
+    );
+  }
+});
+
+var Need = React.createClass({
+  render: function() {
+    return (
+      <Text>> {this.props.need}</Text>
+    );
+  }
 });
 
 var MapView1 = React.createClass({
@@ -207,7 +286,7 @@ var MapView1 = React.createClass({
   render: function() {
     return (
       <View style={styles.mapView}>
-      <MapView 
+      <MapView
       style={styles.map}
           onRegionChange={this._onRegionChange}
           onRegionChangeComplete={this._onRegionChangeComplete}
@@ -250,6 +329,31 @@ var AddView = React.createClass({
       </Camera>
     );
   },
+  _takePicture() {
+   var that = this;
+   this.refs.cam.capture(function(err, data) {
+     console.log(err, data);
+     CameraRoll.getPhotos(
+       {first:1},
+       (data) => {
+         console.log('success: ', data);
+         var img = data.edges[0].node.image;
+         var moment = {
+           homed: "Jamestown Wu",
+           homeless: "Steve McQueen",
+           location: "An Island Somewhere",
+           image: img,
+           story: 'Be free as a bird.',
+         };
+         MOMENTS.unshift(moment);
+         that.props.whenDone();
+       },
+       (error) => {
+         console.log('error: ', error);
+       }
+     );
+   });
+ },
 });
 
 var styles = StyleSheet.create({
