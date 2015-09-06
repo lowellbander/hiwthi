@@ -258,6 +258,19 @@ var Header = React.createClass({
   }
 })
 
+var Grid = React.createClass({
+  render(){
+    var moments = MOMENTS.map(function(moment) {
+    return(
+        <Image source={moment.image} style={styles.grid}/>
+      )
+    })
+    return <ScrollView>{moments}</ScrollView>
+    //return <Text> ballz </Text>;
+    //return <Image source={MOMENTS[0].image} style={styles.grid} />;
+  }
+})
+
 var MeView = React.createClass({
   render: function() {
     return (
@@ -265,11 +278,9 @@ var MeView = React.createClass({
         <StatusBarBox />
         <Header
           profile={this.props.profile || defaultProfile}
-          name={this.props.name || 'John Doe'}
-        />
-        <MomentsNeedsControl />
-        <Needs />
-      </View>
+          name={this.props.name || 'John Doe'} />
+      <Grid />
+    </View>
     );
   },
 });
@@ -293,9 +304,6 @@ var MomentsNeedsControl = React.createClass({
           onValueChange={this._onValueChange} />
         <Text style={styles.text} >
           Value: {this.state.value}
-        </Text>
-        <Text style={styles.text} >
-          Index: {this.state.selectedIndex}
         </Text>
         
       </View>
@@ -534,8 +542,17 @@ var styles = StyleSheet.create({
       textAlign: 'center',
   },
   segmentedControl: {
-    margin: 5,
-  }
+    margin: 10,
+  },
+  grid: {
+    backgroundColor: '#0000FF',
+    flexWrap: 'wrap',
+    flexDirection: 'row',
+    
+    height: 380,
+    width: 380,
+    flex: 1,
+  },
 });
 
 AppRegistry.registerComponent('hiwthi', () => hiwthi);
