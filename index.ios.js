@@ -323,7 +323,7 @@ var MapView1 = React.createClass({
 var AddView = React.createClass({
   getInitialState() {
     return {
-      cameraType: Camera.constants.Type.back
+      cameraType: Camera.constants.Type.front
     }
   },
   render() {
@@ -335,18 +335,8 @@ var AddView = React.createClass({
         onBarCodeRead={this._onBarCodeRead}
         type={this.state.cameraType}
       >
-        <Text style={styles.welcome}>
-          Welcome to React Native!
-        </Text>
-        <Text style={styles.instructions}>
-          To get started, edit index.ios.js{'\n'}
-          Press Cmd+R to reload
-        </Text>
-        <TouchableHighlight onPress={this._switchCamera}>
-          <Text>The old switcheroo</Text>
-        </TouchableHighlight>
         <TouchableHighlight onPress={this._takePicture}>
-          <Text>Take Picture</Text>
+          <Image source={require('image!Circled-50')} />
         </TouchableHighlight>
       </Camera>
     );
