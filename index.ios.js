@@ -356,7 +356,7 @@ var Grid = React.createClass({
         <Image source={moment.image} style={styles.grid}/>
       )
     })
-    return <ScrollView>{moments}</ScrollView>
+    return <ScrollView style={styles.scrollGridContainer}><View style={styles.gridContainer}>{moments}</View></ScrollView>
   }
 })
 
@@ -698,13 +698,17 @@ var styles = StyleSheet.create({
   },
   grid: {
     backgroundColor: '#0000FF',
+    height: 120,
+    width: 120,
+  },
+  gridContainer: {
+    flex: 1,
     flexWrap: 'wrap',
     flexDirection: 'row',
-
-    height: 380,
-    width: 380,
-    flex: 1,
   },
+  scrollGridContainer: {
+    height:1000,
+  }
 });
 
 AppRegistry.registerComponent('hiwthi', () => hiwthi);
