@@ -43,7 +43,7 @@ var MOMENTS = [
     homeless: "Akshay Bakshi",
     location: "Dnipropetrovsk, Ukraine",
     image: {uri: "https://igcdn-photos-h-a.akamaihd.net/hphotos-ak-xaf1/t51.2885-15/e35/11848827_1491796057801111_1023068330_n.jpg"},
-    story: "I met Akshay near the smore shop in the 314."
+    story: "I met Akshay near the smore shop in the 314. He was shivering in the cold, matted hair and ragged robes. No one deserves to starve, whatever their past sins. So, I bought him multi-coloured pebble pyjamas and taught him to code so he could get free stuff at hackathons."
   },
   {
     homed: "Lowell Bander",
@@ -109,10 +109,9 @@ var Moment = React.createClass({
     return(
         <View style={styles.moment}>
           <Text style={styles.momentNameText}>{moment.homed} x {moment.homeless}</Text>
-          
+          <Text style={styles.momentLocationText}>{moment.location}</Text>
           <Image source={moment.image} style={styles.momentPhoto} />
           <Text style={styles.momentStoryText}>{moment.story}</Text>
-          <Text>{moment.location}</Text>
         </View>
     )
   }
@@ -348,11 +347,22 @@ var styles = StyleSheet.create({
       fontSize: 24,
       fontFamily: 'Avenir',
       margin:10,
+      marginBottom: 0,
+      textAlign: 'center',
   },
   momentStoryText: {
       fontSize: 16,
       fontFamily: 'Georgia',
       margin: 10,
+  },
+  momentLocationText: {
+      margin: 0,
+      marginTop: -3,
+      marginBottom: 3,
+      fontSize: 12,
+      color: '#808080',
+      fontFamily: 'Avenir',
+      textAlign: 'center',
   },
 });
 
