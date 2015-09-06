@@ -224,13 +224,14 @@ var Onboarding = React.createClass({
           <View style={[styles.innerContainer, innerContainerTransparentStyle]}>
             <Text style={styles.title}>Where the Heart is</Text>
             <Text style={styles.welcome}>Many who live on the streets battle the feeling that they’re inadequate or nonexistent to the rest of the world.</Text>
-            <Text style={styles.welcome}>We believe that fostering meaningful interactions between homed and homeless individuals vitalizes community health.</Text>
+            <Text style={styles.welcome}>
+            We believe that fostering meaningful interactions between homed and homeless individuals vitalizes community health.</Text>
             <View style={styles.startButton}>
             <Button
               style={styles.welcomeButton}
               onPress={this._close}
             >
-              Lets Get Started
+               Start
             </Button>
             </View>
           </View>
@@ -316,6 +317,14 @@ var Avatar = React.createClass({
 })
 
 var Header = React.createClass({
+  getInitialState: function() {
+    return {
+      followed: false,
+    };
+  },
+  _handlePress: function() {
+    this.setState({followed: true});
+  },
   render: function(){
   var needs = <Button
     style={styles.button}
@@ -326,6 +335,14 @@ var Header = React.createClass({
   if (this.props.inModal || this.props.hideNeedsButton) {
     needs = null;
   }
+  var followText = this.state.followed ? 'Followed' : 'Follow';
+  var follow = <Button style={styles.button} onPress={this._handlePress}>
+    {followText}
+  </Button>;
+
+  if (this.props.isUser) {
+    follow = null;
+  }
     return(
       <View style={styles.headerContainer}>
           <Avatar profile={this.props.profile} />
@@ -334,12 +351,10 @@ var Header = React.createClass({
               {this.props.name}
             </Text>
             <Text style={styles.xMomentsText}>
-            19 Moments
+            {MOMENTS.length} Moments
             </Text>
             <View style={styles.buttonContainer}>
-            <Button style={styles.button} onPress={this._handlePress}>
-              Follow
-            </Button>
+            {follow}
             {needs}
             </View>
           </View>
@@ -389,6 +404,7 @@ var MeView = React.createClass({
           showNeeds={this.showNeeds}
           inModal={this.props.inModal}
           hideNeedsButton={this.props.isUser}
+          isUser={this.props.isUser}
         />
       {grid}
       <Modal
@@ -567,26 +583,32 @@ var styles = StyleSheet.create({
     backgroundColor: '#F5FCFF',
   },
   title: {
-    fontSize: 30,
-    marginBottom: 50,
+    fontSize: 32,
+    fontFamily: 'Avenir',
     textAlign: 'center',
   },
   welcome: {
-    fontSize: 15,
-    textAlign: 'center',
-    marginLeft: 30,
-    marginRight: 30,
-    marginBottom: 20,
+    fontSize: 18,
+    textAlign: 'left',
+    margin: 25,
+    fontFamily: 'Helvetica',
+    marginBottom: 0,
   },
   welcomeButton: {
     justifyContent: 'center',
     alignItems: 'center',
-    color: '#333333',
+    color: '#007Aff',
+    borderWidth: 1,
+    borderRadius: 8,
+    borderColor: '#007Aff',
+    padding: 6,
+    marginTop: 10,
   },
   instructions: {
     textAlign: 'center',
     color: '#333333',
     marginBottom: 5,
+    fontSize: 16,
   },
   headerContainer: {
     flex: 5,
@@ -616,7 +638,7 @@ var styles = StyleSheet.create({
   },
   button:{
       flex:1,
-      width: 80,
+      width: 95,
       marginTop: 10,
       marginRight: 10,
       color: '#007AFF',
@@ -713,6 +735,7 @@ var styles = StyleSheet.create({
   },
   startButton: {
     alignSelf: 'center',
+    color: '#007Aff',
   },
 });
 
